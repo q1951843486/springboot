@@ -1,0 +1,49 @@
+spring:
+  h2:
+    console:
+      path: /h2-console #进入h2 web操作界面的路径
+      enabled: true #开启h2 web界面
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 8
+      min-idle: 1
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runsMillis: 60000
+      min-evictable-idle-timeMillis: 300000
+      validation-query: select 'x' FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      use-global-data-source-stat: true
+    schema:
+      - classpath:db/schema-h2.sql
+    data:
+      - classpath:db/data-h2.sql
+    one:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:test1
+      username: root
+      password: test
+    two:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:test2
+      username: root
+      password: test
+    initialization-mode: always
+invoke:
+  schema:
+    location: db/schema-h2.sql
+  data:
+    location: db/data-h2.sql
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 在console打印sql语句
+server:
+  port: 8081
